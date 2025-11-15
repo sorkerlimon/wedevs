@@ -37,11 +37,24 @@ spec:
         - name: WORDPRESS_DB_HOST
           value: mysql
         - name: WORDPRESS_DB_USER
-          value: wordpress
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
         - name: WORDPRESS_DB_PASSWORD
-          value: wordpresspassword
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
         - name: WORDPRESS_DB_NAME
-          value: wordpress
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_DATABASE
+        - name: WORDPRESS_URL
+          value: http://app.local
+        - name: WORDPRESS_HOME
+          value: http://app.local
         volumeMounts:
         - name: wordpress-storage
           mountPath: /var/www/html
@@ -66,4 +79,23 @@ spec:
   selector:
     app: wordpress
   type: ClusterIP
-
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-ingress
+  namespace: wedevs-namespace
+  annotations: {}
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: app.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress
+            port:
+              number: 80

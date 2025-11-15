@@ -1,0 +1,8 @@
+# SOPS configuration for FluxCD
+# This file should be committed to your repository
+# The age public key is safe to commit
+
+creation_rules:
+  - path_regex: kubernetes/.*\.enc\.yaml$
+    age: age1dusesg6w7m2e5g5jz84962edk250thms2hpczjjj2r93kdln4g5smts2hz
+

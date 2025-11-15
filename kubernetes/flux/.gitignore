@@ -1,0 +1,12 @@
+# Age private keys - DO NOT COMMIT
+.sops/age/keys.txt
+.sops/age/*.txt
+
+# SOPS encrypted files (optional - you may want to commit these)
+*.enc.yaml
+
+# GitHub tokens and secrets
+github-secret.yaml
+sops-age-secret.yaml
+
+

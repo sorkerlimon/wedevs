@@ -10,18 +10,6 @@ spec:
     requests:
       storage: 2Gi
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secret
-  namespace: wedevs-namespace
-type: Opaque
-stringData:
-  MYSQL_ROOT_PASSWORD: rootpassword
-  MYSQL_DATABASE: wordpress
-  MYSQL_USER: wordpress
-  MYSQL_PASSWORD: wordpresspassword
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -90,4 +78,3 @@ spec:
   selector:
     app: mysql
   clusterIP: None
-
