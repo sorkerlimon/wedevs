@@ -28,11 +28,5 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  values:
-    controller:
-      nodeSelector:
-        kubernetes.io/os: linux
-    speaker:
-      nodeSelector:
-        kubernetes.io/os: linux
+  values: {}
 
