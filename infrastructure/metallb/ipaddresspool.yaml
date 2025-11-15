@@ -1,0 +1,14 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    # TODO: Update this IP range based on your k3s network configuration
+    # Check your network interface: ip addr show or ifconfig
+    # Use a range in your local subnet (e.g., if network is 192.168.1.0/24)
+    # Example: 192.168.1.200-192.168.1.250
+    # For k3d (Docker), may need: 172.18.255.200-172.18.255.250
+    - 192.168.1.200-192.168.1.250
+

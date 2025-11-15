@@ -1,0 +1,40 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+  ref:
+    branch: main
+  secretRef:
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./clusters/local
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  validation: client
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: kustomize-controller
+      namespace: flux-system
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: helm-controller
+      namespace: flux-system
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: source-controller
+      namespace: flux-system
+

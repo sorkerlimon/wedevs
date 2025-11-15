@@ -1,0 +1,6 @@
+# SOPS configuration for secret encryption
+creation_rules:
+  - path_regex: workloads/mysql/.*\.enc\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    age: PUBLIC_KEY_HERE
+
