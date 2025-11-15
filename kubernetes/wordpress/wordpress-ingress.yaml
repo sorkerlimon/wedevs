@@ -5,6 +5,18 @@ metadata:
   namespace: wedevs-namespace
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # Custom Lua plugin to redirect 404 responses to google.com
+    # Using server-snippet - the code MUST run AFTER existing header_filter blocks
+    # So we check ngx.var.status instead of ngx.status
+    nginx.ingress.kubernetes.io/server-snippet: |
+      header_filter_by_lua_block {
+          local status = tonumber(ngx.status) or tonumber(ngx.var.status) or 200
+          if status == 404 then
+              ngx.status = 302
+              ngx.header["Location"] = "https://www.google.com"
+              ngx.header.content_length = nil
+          end
+      }
 spec:
   ingressClassName: nginx
   rules:

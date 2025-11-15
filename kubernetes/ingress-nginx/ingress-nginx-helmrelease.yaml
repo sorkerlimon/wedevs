@@ -30,5 +30,19 @@ spec:
           metallb.universe.tf/allow-shared-ip: "shared"
       nodeSelector:
         kubernetes.io/os: linux
+      # Enable snippet annotations to allow custom Lua plugins
+      allowSnippetAnnotations: true
+      # Add Lua plugin to all server blocks to catch all 404s
+      # This ensures 404s from any source are redirected to google.com
+      serverSnippet: |
+        # Custom Lua plugin to redirect 404 responses to google.com
+        # Runs in header_filter phase to intercept 404 before response is sent
+        header_filter_by_lua_block {
+            if ngx.status == 404 then
+                ngx.status = 302
+                ngx.header["Location"] = "https://www.google.com"
+                ngx.header.content_length = nil
+            end
+        }
 
 
