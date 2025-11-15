@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-wordpress
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  wordpress-logs.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "WordPress Pod Logs",
+        "tags": ["wordpress", "logs"],
+        "timezone": "browser",
+        "schemaVersion": 16,
+        "version": 0,
+        "refresh": "10s",
+        "panels": [
+          {
+            "id": 1,
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+            "type": "logs",
+            "title": "WordPress Pod Logs",
+            "targets": [
+              {
+                "expr": "{namespace=\"wedevs-namespace\", pod=~\"wordpress.*\"}",
+                "refId": "A"
+              }
+            ],
+            "options": {
+              "dedupStrategy": "none",
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showLabels": false,
+              "showTime": true,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            }
+          },
+          {
+            "id": 2,
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+            "type": "logs",
+            "title": "All Application Logs",
+            "targets": [
+              {
+                "expr": "{namespace=\"wedevs-namespace\"}",
+                "refId": "A"
+              }
+            ],
+            "options": {
+              "dedupStrategy": "none",
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showLabels": false,
+              "showTime": true,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            }
+          },
+          {
+            "id": 3,
+            "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8},
+            "type": "logs",
+            "title": "Ingress-NGINX Logs",
+            "targets": [
+              {
+                "expr": "{namespace=\"flux-system\", pod=~\"ingress-nginx.*\"}",
+                "refId": "A"
+              }
+            ],
+            "options": {
+              "dedupStrategy": "none",
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showLabels": false,
+              "showTime": true,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            }
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "timepicker": {},
+        "templating": {
+          "list": []
+        },
+        "annotations": {
+          "list": []
+        },
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "links": [],
+        "liveNow": false,
+        "weekStart": ""
+      }
+    }
+
