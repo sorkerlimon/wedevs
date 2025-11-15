@@ -1,7 +1,0 @@
-# SOPS configuration for FluxCD
-apiVersion: v1
-creation_rules:
-  - path_regex: .*.yaml$
-    encrypted_regex: ^(data|stringData)$
-    age: age1j5j4x77dv7efrwssv9tvaltqyxstdywer77qtd2c546e8h0zpccsqjk89x
-
